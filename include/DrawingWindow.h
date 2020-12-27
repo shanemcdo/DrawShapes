@@ -15,10 +15,13 @@ private:
     Vector2 prev_mouse_pos;
     Vertex* current_vertex = nullptr;
     char* window_title;
-    std::vector<Shape> shapes;
+    std::vector<Shape*> shapes;
     void draw_grid();
     void draw_cursor();
     void mouse_input();
+    void keyboard_input();
+    template<class T>
+    void add_new_shape();
     Vector2 get_mouse_window_rounded();
 public:
     Vector2 grid_to_window(Vector2 pos);

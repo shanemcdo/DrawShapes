@@ -29,7 +29,7 @@ void DrawingWindow::mouse_input(){
         current_vertex->x = current_mouse_grid_pos.x;
         current_vertex->y = current_mouse_grid_pos.y;
         if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)){
-            current_vertex = nullptr;
+            current_vertex = current_vertex->get_parent()->add_vertex(current_mouse_grid_pos);
         }
     }
     if(IsMouseButtonDown(MOUSE_MIDDLE_BUTTON)){
@@ -50,6 +50,21 @@ void DrawingWindow::mouse_input(){
         pan_offset = grid_to_window({mouse_pos_after.x - mouse_pos_before.x, mouse_pos_after.y - mouse_pos_before.y});
     }
     prev_mouse_pos = mouse_pos;
+}
+
+void DrawingWindow::keyboard_input(){
+    if(IsKeyPressed(KEY_L))
+        add_new_shape<Line>();
+    if(IsKeyPressed(KEY_C))
+        add_new_shape<Circle>();
+}
+
+template<class T>
+void DrawingWindow::add_new_shape(){
+    Vector2 pos = window_to_grid(GetMousePosition());
+    shapes.push_back(new T());
+    shapes[shapes.size() - 1]->add_vertex(pos);
+    current_vertex = shapes[shapes.size() - 1]->add_vertex(pos);
 }
 
 Vector2 DrawingWindow::get_mouse_window_rounded(){
@@ -85,16 +100,15 @@ DrawingWindow::DrawingWindow(Vector2 size):window_size(size){
 void DrawingWindow::run(){
     InitWindow(window_size.x, window_size.y, "Drawing Window");
     SetTargetFPS(30);
-    Circle c;
-    c.add_vertex({0, 0});
-    current_vertex = c.add_vertex({1, 1});
     while(!WindowShouldClose()){
         mouse_input();
+        keyboard_input();
         BeginDrawing();
         ClearBackground(BLACK);
         draw_grid();
         draw_cursor();
-        c.draw(this);
+        for(auto shape: shapes)
+            shape->draw(this);
         EndDrawing();
     }
     CloseWindow();
