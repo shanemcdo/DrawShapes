@@ -4,6 +4,7 @@
 #include"DrawingWindow.h"
 #include"Line.h"
 #include"Circle.h"
+#include"Triangle.h"
 
 void DrawingWindow::draw_grid(){
     for(int i = pan_offset.x; i < window_size.x; i += cell_size.x)
@@ -56,8 +57,10 @@ void DrawingWindow::keyboard_input(){
     if(current_vertex == nullptr){
         if(IsKeyPressed(KEY_L))
             add_new_shape<Line>();
-        if(IsKeyPressed(KEY_C))
+        else if(IsKeyPressed(KEY_C))
             add_new_shape<Circle>();
+        else if(IsKeyPressed(KEY_T))
+            add_new_shape<Triangle>();
     }
 }
 
