@@ -8,8 +8,10 @@ class DrawingWindow;
 
 class Shape{
 protected:
-    std::vector<Vertex> vertices; // a list of vertices for the shape in grid coordinates not window coordinates
+    std::vector<Vertex*> vertices; // a list of vertices for the shape in grid coordinates not window coordinates
     unsigned max_verticies = 0;
+    friend class Vertex;
+    friend class DrawingWindow;
 public:
     Vertex* add_vertex(Vector2 v);
     void draw_verticies(DrawingWindow* window);

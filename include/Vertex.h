@@ -10,11 +10,13 @@ class Vertex: public Vector2{
 private:
     static float radius;
     Shape* parent;
+    friend class DrawingWindow;
 public:
     Vertex(float _x, float _y, Shape* _parent);
     Vertex(Vector2 v, Shape* _parent);
     Shape* get_parent();
     void draw(DrawingWindow* window);
+    void remove();
 };
 
 #endif // VERTEX_H

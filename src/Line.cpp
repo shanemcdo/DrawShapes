@@ -7,6 +7,6 @@ Line::Line(){
 }
 
 void Line::draw(DrawingWindow* window){
-    DrawLineV(window->grid_to_window(vertices[0]), window->grid_to_window(vertices[1]), WHITE);
+    DrawLineV(window->grid_to_window(*vertices[0]), window->grid_to_window(*vertices[1]), WHITE);
     draw_verticies(window);
 }

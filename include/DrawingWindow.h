@@ -24,6 +24,7 @@ private:
     template<class T>
     void add_new_shape();
     void remove_shape(Shape* shape);
+    void remove_vertex(Vertex* vertex);
     Vertex* select_vertex(Vector2 pos);
     Vector2 get_mouse_window_rounded();
 public:

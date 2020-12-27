@@ -1,3 +1,4 @@
+#include<algorithm>
 #include"Vertex.h"
 #include"DrawingWindow.h"
 
@@ -20,4 +21,8 @@ Shape* Vertex::get_parent(){
 void Vertex::draw(DrawingWindow* window){
     Vector2 center = window->grid_to_window(*this);
     DrawCircle(center.x, center.y, radius, RED);
+}
+
+void Vertex::remove(){
+    parent->vertices.erase(std::remove(parent->vertices.begin(), parent->vertices.end(), this));
 }

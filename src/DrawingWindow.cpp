@@ -73,6 +73,10 @@ void DrawingWindow::keyboard_input(){
             current_vertex = nullptr;
         else if (IsKeyPressed(KEY_DELETE))
             remove_shape(current_vertex->get_parent());
+        else if (IsKeyPressed(KEY_BACKSPACE)){
+            remove_vertex(current_vertex);
+            current_vertex = nullptr;
+        }
     }
 
 }
@@ -89,9 +93,18 @@ void DrawingWindow::add_new_shape(){
 
 void DrawingWindow::remove_shape(Shape* shape){
     current_vertex = nullptr;
-    std::cout << "delete object" << std::endl;
     shapes.erase(std::remove(shapes.begin(), shapes.end(), shape));
+    for(Vertex* vertex: shape->vertices)
+        remove_vertex(vertex);
     delete shape;
+}
+
+void DrawingWindow::remove_vertex(Vertex* vertex){
+    vertices.erase(std::remove(vertices.begin(), vertices.end(), vertex));
+    vertex->remove();
+    if(vertex->parent->vertices.size() == 0)
+        remove_shape(vertex->parent);
+    delete vertex;
 }
 
 Vertex* DrawingWindow::select_vertex(Vector2 pos){
@@ -146,6 +159,7 @@ void DrawingWindow::run(){
         for(auto shape: shapes)
             shape->draw(this);
         EndDrawing();
+    std::cout << "Shapes: " << shapes.size() << "\nvertices: " << vertices.size() << std::endl;
     }
     CloseWindow();
 }
