@@ -96,7 +96,7 @@ Vector2 DrawingWindow::round_window_to_grid(Vector2 pos){
 }
 
 DrawingWindow::DrawingWindow(Vector2 size):window_size(size){
-    // pan_offset = {size.x / 2, size.y / 2};
+    pan_offset = {size.x / 2, size.y / 2};
 }
 
 void DrawingWindow::run(){
