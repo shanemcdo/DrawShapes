@@ -53,15 +53,17 @@ void DrawingWindow::mouse_input(){
 }
 
 void DrawingWindow::keyboard_input(){
-    if(IsKeyPressed(KEY_L))
-        add_new_shape<Line>();
-    if(IsKeyPressed(KEY_C))
-        add_new_shape<Circle>();
+    if(current_vertex == nullptr){
+        if(IsKeyPressed(KEY_L))
+            add_new_shape<Line>();
+        if(IsKeyPressed(KEY_C))
+            add_new_shape<Circle>();
+    }
 }
 
 template<class T>
 void DrawingWindow::add_new_shape(){
-    Vector2 pos = window_to_grid(GetMousePosition());
+    Vector2 pos = round_window_to_grid(GetMousePosition());
     shapes.push_back(new T());
     shapes[shapes.size() - 1]->add_vertex(pos);
     current_vertex = shapes[shapes.size() - 1]->add_vertex(pos);
