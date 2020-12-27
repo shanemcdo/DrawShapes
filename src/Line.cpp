@@ -1,3 +1,4 @@
+#include"DrawingWindow.h"
 #include"Line.h"
 
 Line::Line(){
@@ -5,7 +6,7 @@ Line::Line(){
     vertices.reserve(max_verticies); // fix error with returning a pointer to a spot in a vector
 }
 
-void Line::draw(){
-    DrawLine(vertices[0].x, vertices[0].y, vertices[1].x, vertices[1].y, WHITE);
-    draw_verticies();
+void Line::draw(DrawingWindow* window){
+    DrawLineV(window->grid_to_window(vertices[0]), window->grid_to_window(vertices[1]), WHITE);
+    draw_verticies(window);
 }

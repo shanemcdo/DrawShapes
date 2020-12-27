@@ -7,7 +7,7 @@ class Circle: public Line{
 private:
     int distance(Vector2 v1, Vector2 v2);
 public:
-    virtual void draw();
+    virtual void draw(DrawingWindow* window);
 };
 
 #endif // CIRCLE_H

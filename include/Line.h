@@ -6,7 +6,7 @@
 class Line: public Shape{
 public:
     Line();
-    virtual void draw();
+    virtual void draw(DrawingWindow* window);
 };
 
 #endif // LINE_H

@@ -1,4 +1,5 @@
 #include"Vertex.h"
+#include"DrawingWindow.h"
 
 float Vertex::radius = 5;
 
@@ -16,6 +17,7 @@ Shape* Vertex::get_parent(){
     return parent;
 }
 
-void Vertex::draw(){
-    DrawCircle(x, y, radius, RED);
+void Vertex::draw(DrawingWindow* window){
+    Vector2 center = window->grid_to_window(*this);
+    DrawCircle(center.x, center.y, radius, RED);
 }

@@ -9,8 +9,8 @@ Vertex* Shape::add_vertex(Vector2 v){
     return nullptr;
 }
 
-void Shape::draw_verticies(){
+void Shape::draw_verticies(DrawingWindow* window){
     for(auto vertex: vertices){
-        vertex.draw();
+        vertex.draw(window);
     }
 }
