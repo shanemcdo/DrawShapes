@@ -5,6 +5,7 @@
 #include"Line.h"
 #include"Circle.h"
 #include"Triangle.h"
+#include"Polygon.h"
 
 void DrawingWindow::draw_grid(){
     for(int i = pan_offset.x; i < window_size.x; i += cell_size.x)
@@ -61,7 +62,15 @@ void DrawingWindow::keyboard_input(){
             add_new_shape<Circle>();
         else if(IsKeyPressed(KEY_T))
             add_new_shape<Triangle>();
+        else if(IsKeyPressed(KEY_P))
+            add_new_shape<Polygon>();
+    }else{
+        if(IsKeyPressed(KEY_ESCAPE))
+            current_vertex = nullptr;
+        else if (IsKeyPressed(KEY_DELETE))
+            remove_shape(current_vertex->get_parent());
     }
+
 }
 
 template<class T>
@@ -70,6 +79,13 @@ void DrawingWindow::add_new_shape(){
     shapes.push_back(new T());
     shapes[shapes.size() - 1]->add_vertex(pos);
     current_vertex = shapes[shapes.size() - 1]->add_vertex(pos);
+}
+
+void DrawingWindow::remove_shape(Shape* shape){
+    current_vertex = nullptr;
+    std::cout << "delete object" << std::endl;
+    shapes.erase(std::remove(shapes.begin(), shapes.end(), shape));
+    delete shape;
 }
 
 Vector2 DrawingWindow::get_mouse_window_rounded(){
@@ -104,6 +120,7 @@ DrawingWindow::DrawingWindow(Vector2 size):window_size(size){
 
 void DrawingWindow::run(){
     InitWindow(window_size.x, window_size.y, "Drawing Window");
+    SetExitKey(KEY_Q);
     SetTargetFPS(30);
     while(!WindowShouldClose()){
         mouse_input();

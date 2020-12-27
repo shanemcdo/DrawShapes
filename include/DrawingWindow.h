@@ -22,6 +22,7 @@ private:
     void keyboard_input();
     template<class T>
     void add_new_shape();
+    void remove_shape(Shape* shape);
     Vector2 get_mouse_window_rounded();
 public:
     Vector2 grid_to_window(Vector2 pos);
