@@ -24,6 +24,11 @@ void DrawingWindow::draw_cursor(){
 
 void DrawingWindow::mouse_input(){
     mouse_pos = get_mouse_window_rounded();
+    if(current_vertex != nullptr){
+        Vector2 current_mouse_grid_pos = round_window_to_grid(GetMousePosition());
+        current_vertex->x = current_mouse_grid_pos.x;
+        current_vertex->y = current_mouse_grid_pos.y;
+    }
     if(IsMouseButtonDown(MOUSE_MIDDLE_BUTTON)){
         Vector2 mouse_change = {prev_mouse_pos.x - mouse_pos.x, prev_mouse_pos.y - mouse_pos.y};
         pan_offset.x -= mouse_change.x;
@@ -45,7 +50,7 @@ void DrawingWindow::mouse_input(){
 }
 
 Vector2 DrawingWindow::get_mouse_window_rounded(){
-    return grid_to_window(window_to_grid(GetMousePosition()));
+    return grid_to_window(round_window_to_grid(GetMousePosition()));
 }
 
 Vector2 DrawingWindow::grid_to_window(Vector2 pos){
@@ -62,6 +67,14 @@ Vector2 DrawingWindow::window_to_grid(Vector2 pos){
     };
 }
 
+Vector2 DrawingWindow::round_window_to_grid(Vector2 pos){
+    Vector2 grid_pos = window_to_grid(pos);
+    return {
+        roundf(grid_pos.x),
+        roundf(grid_pos.y),
+    };
+}
+
 DrawingWindow::DrawingWindow(Vector2 size):window_size(size){
     pan_offset = {size.x / 2, size.y / 2};
 }
@@ -71,14 +84,14 @@ void DrawingWindow::run(){
     SetTargetFPS(30);
     Circle c;
     c.add_vertex({0, 0});
-    c.add_vertex({1, 1});
+    current_vertex = c.add_vertex({1, 1});
     while(!WindowShouldClose()){
+        mouse_input();
         BeginDrawing();
         ClearBackground(BLACK);
         draw_grid();
         draw_cursor();
         c.draw(this);
-        mouse_input();
         EndDrawing();
     }
     CloseWindow();

@@ -4,6 +4,7 @@
 #include<vector>
 #include<raylib.h>
 #include"Shape.h"
+#include"Vertex.h"
 
 class DrawingWindow{
 private:
@@ -12,6 +13,7 @@ private:
     Vector2 pan_offset{1000, 1000};
     Vector2 mouse_pos;
     Vector2 prev_mouse_pos;
+    Vertex* current_vertex = nullptr;
     char* window_title;
     std::vector<Shape> shapes;
     void draw_grid();
@@ -21,6 +23,7 @@ private:
 public:
     Vector2 grid_to_window(Vector2 pos);
     Vector2 window_to_grid(Vector2 pos);
+    Vector2 round_window_to_grid(Vector2 pos);
     DrawingWindow(Vector2 _window_size);
     void run();
 };
