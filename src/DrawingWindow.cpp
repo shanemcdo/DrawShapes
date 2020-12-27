@@ -40,10 +40,10 @@ void DrawingWindow::mouse_input(){
     float wheel_move = GetMouseWheelMove();
     if(wheel_move != 0.0){
         Vector2 mouse_pos_before = window_to_grid(GetMousePosition());
-        cell_size.x += wheel_move * cell_size.x / 10;
+        cell_size.x += wheel_move * 10;
         if(cell_size.x < 1)
             cell_size.x = 1;
-        cell_size.y += wheel_move * cell_size.y / 10;
+        cell_size.y += wheel_move * 10;
         if(cell_size.y < 1)
             cell_size.y = 1;
         Vector2 mouse_pos_after = window_to_grid(GetMousePosition());
