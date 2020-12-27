@@ -26,13 +26,17 @@ void DrawingWindow::draw_cursor(){
 
 void DrawingWindow::mouse_input(){
     mouse_pos = GetMousePosition();
+    Vector2 current_mouse_grid_pos = round_window_to_grid(mouse_pos);
     if(current_vertex != nullptr){
-        Vector2 current_mouse_grid_pos = round_window_to_grid(mouse_pos);
         current_vertex->x = current_mouse_grid_pos.x;
         current_vertex->y = current_mouse_grid_pos.y;
         if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
             current_vertex = current_vertex->get_parent()->add_vertex(current_mouse_grid_pos);
+            if(current_vertex != nullptr)
+                vertices.push_back(current_vertex);
         }
+    }else if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+        current_vertex = select_vertex(current_mouse_grid_pos);
     }
     if(IsMouseButtonDown(MOUSE_MIDDLE_BUTTON)){
         Vector2 mouse_change = {prev_mouse_pos.x - mouse_pos.x, prev_mouse_pos.y - mouse_pos.y};
@@ -77,8 +81,10 @@ template<class T>
 void DrawingWindow::add_new_shape(){
     Vector2 pos = round_window_to_grid(GetMousePosition());
     shapes.push_back(new T());
-    shapes[shapes.size() - 1]->add_vertex(pos);
     current_vertex = shapes[shapes.size() - 1]->add_vertex(pos);
+    vertices.push_back(current_vertex);
+    current_vertex = shapes[shapes.size() - 1]->add_vertex(pos);
+    vertices.push_back(current_vertex);
 }
 
 void DrawingWindow::remove_shape(Shape* shape){
@@ -86,6 +92,14 @@ void DrawingWindow::remove_shape(Shape* shape){
     std::cout << "delete object" << std::endl;
     shapes.erase(std::remove(shapes.begin(), shapes.end(), shape));
     delete shape;
+}
+
+Vertex* DrawingWindow::select_vertex(Vector2 pos){
+    for(Vertex* vertex: vertices){
+        if(vertex->x == pos.x && vertex->y == pos.y)
+            return vertex;
+    }
+    return nullptr;
 }
 
 Vector2 DrawingWindow::get_mouse_window_rounded(){

@@ -16,6 +16,7 @@ private:
     Vertex* current_vertex = nullptr;
     char* window_title;
     std::vector<Shape*> shapes;
+    std::vector<Vertex*> vertices;
     void draw_grid();
     void draw_cursor();
     void mouse_input();
@@ -23,6 +24,7 @@ private:
     template<class T>
     void add_new_shape();
     void remove_shape(Shape* shape);
+    Vertex* select_vertex(Vector2 pos);
     Vector2 get_mouse_window_rounded();
 public:
     Vector2 grid_to_window(Vector2 pos);
