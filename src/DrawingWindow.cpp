@@ -28,6 +28,9 @@ void DrawingWindow::mouse_input(){
         Vector2 current_mouse_grid_pos = round_window_to_grid(GetMousePosition());
         current_vertex->x = current_mouse_grid_pos.x;
         current_vertex->y = current_mouse_grid_pos.y;
+        if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)){
+            current_vertex = nullptr;
+        }
     }
     if(IsMouseButtonDown(MOUSE_MIDDLE_BUTTON)){
         Vector2 mouse_change = {prev_mouse_pos.x - mouse_pos.x, prev_mouse_pos.y - mouse_pos.y};
