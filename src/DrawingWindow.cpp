@@ -22,6 +22,16 @@ void DrawingWindow::draw_cursor(){
     DrawCircleV(get_mouse_grid(), 10, {0, 220, 0, 100});
 }
 
+void DrawingWindow::mouse_input(){
+    mouse_pos = get_mouse_grid();
+    if(IsMouseButtonDown(MOUSE_MIDDLE_BUTTON)){
+        Vector2 mouse_change = {prev_mouse_pos.x - mouse_pos.x, prev_mouse_pos.y - mouse_pos.y};
+        pan_offset.x -= mouse_change.x;
+        pan_offset.y -= mouse_change.y;
+    }
+    prev_mouse_pos = mouse_pos;
+}
+
 Vector2 DrawingWindow::get_mouse_grid(){
     return grid_to_window(window_to_grid(GetMousePosition()));
 }
@@ -56,8 +66,8 @@ void DrawingWindow::run(){
         draw_grid();
         draw_cursor();
         c.draw(this);
+        mouse_input();
         EndDrawing();
-        pan_offset.x += 5;
     }
     CloseWindow();
 }

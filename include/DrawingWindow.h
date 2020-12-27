@@ -10,10 +10,13 @@ private:
     Vector2 window_size;
     Vector2 cell_size{40, 40};
     Vector2 pan_offset{1000, 1000};
+    Vector2 mouse_pos;
+    Vector2 prev_mouse_pos;
     char* window_title;
     std::vector<Shape> shapes;
     void draw_grid();
     void draw_cursor();
+    void mouse_input();
     Vector2 get_mouse_grid();
 public:
     Vector2 grid_to_window(Vector2 pos);
