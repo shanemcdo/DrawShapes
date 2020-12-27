@@ -14,6 +14,7 @@ public:
     Vertex* add_vertex(Vector2 v);
     void draw_verticies(DrawingWindow* window);
     virtual void draw(DrawingWindow* window) = 0;
+    virtual ~Shape();
 };
 
 #endif // SHAPE_H

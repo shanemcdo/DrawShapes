@@ -113,3 +113,9 @@ void DrawingWindow::run(){
     }
     CloseWindow();
 }
+
+DrawingWindow::~DrawingWindow(){
+    for(auto shape: shapes)
+        delete shape;
+    shapes.clear();
+}

@@ -29,6 +29,7 @@ public:
     Vector2 round_window_to_grid(Vector2 pos);
     DrawingWindow(Vector2 _window_size);
     void run();
+    ~DrawingWindow();
 };
 
 #endif // DRAWING_WINDOW

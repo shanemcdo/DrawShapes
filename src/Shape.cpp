@@ -14,3 +14,5 @@ void Shape::draw_verticies(DrawingWindow* window){
         vertex.draw(window);
     }
 }
+
+Shape::~Shape(){};
