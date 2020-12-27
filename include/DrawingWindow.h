@@ -17,7 +17,7 @@ private:
     void draw_grid();
     void draw_cursor();
     void mouse_input();
-    Vector2 get_mouse_grid();
+    Vector2 get_mouse_window_rounded();
 public:
     Vector2 grid_to_window(Vector2 pos);
     Vector2 window_to_grid(Vector2 pos);

@@ -19,11 +19,11 @@ void DrawingWindow::draw_grid(){
 }
 
 void DrawingWindow::draw_cursor(){
-    DrawCircleV(get_mouse_grid(), 10, {0, 220, 0, 100});
+    DrawCircleV(get_mouse_window_rounded(), 10, {0, 220, 0, 100});
 }
 
 void DrawingWindow::mouse_input(){
-    mouse_pos = get_mouse_grid();
+    mouse_pos = get_mouse_window_rounded();
     if(IsMouseButtonDown(MOUSE_MIDDLE_BUTTON)){
         Vector2 mouse_change = {prev_mouse_pos.x - mouse_pos.x, prev_mouse_pos.y - mouse_pos.y};
         pan_offset.x -= mouse_change.x;
@@ -31,17 +31,20 @@ void DrawingWindow::mouse_input(){
     }
     float wheel_move = GetMouseWheelMove();
     if(wheel_move != 0.0){
+        Vector2 mouse_pos_before = window_to_grid(GetMousePosition());
         cell_size.x += wheel_move * cell_size.x / 10;
         if(cell_size.x < 1)
             cell_size.x = 1;
         cell_size.y += wheel_move * cell_size.y / 10;
         if(cell_size.y < 1)
             cell_size.y = 1;
+        Vector2 mouse_pos_after = window_to_grid(GetMousePosition());
+        pan_offset = grid_to_window({mouse_pos_after.x - mouse_pos_before.x, mouse_pos_after.y - mouse_pos_before.y});
     }
     prev_mouse_pos = mouse_pos;
 }
 
-Vector2 DrawingWindow::get_mouse_grid(){
+Vector2 DrawingWindow::get_mouse_window_rounded(){
     return grid_to_window(window_to_grid(GetMousePosition()));
 }
 
@@ -54,8 +57,8 @@ Vector2 DrawingWindow::grid_to_window(Vector2 pos){
 
 Vector2 DrawingWindow::window_to_grid(Vector2 pos){
     return {
-        roundf((pos.x - pan_offset.x) / cell_size.x),
-        roundf((pos.y - pan_offset.y) / cell_size.y),
+        (pos.x - pan_offset.x) / cell_size.x,
+        (pos.y - pan_offset.y) / cell_size.y,
     };
 }
 
