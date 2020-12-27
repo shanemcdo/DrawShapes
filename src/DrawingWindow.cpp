@@ -23,7 +23,7 @@ void DrawingWindow::draw_cursor(){
 }
 
 void DrawingWindow::mouse_input(){
-    mouse_pos = get_mouse_window_rounded();
+    mouse_pos = GetMousePosition();
     if(current_vertex != nullptr){
         Vector2 current_mouse_grid_pos = round_window_to_grid(GetMousePosition());
         current_vertex->x = current_mouse_grid_pos.x;
@@ -96,7 +96,7 @@ Vector2 DrawingWindow::round_window_to_grid(Vector2 pos){
 }
 
 DrawingWindow::DrawingWindow(Vector2 size):window_size(size){
-    pan_offset = {size.x / 2, size.y / 2};
+    // pan_offset = {size.x / 2, size.y / 2};
 }
 
 void DrawingWindow::run(){

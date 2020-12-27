@@ -10,7 +10,7 @@ class DrawingWindow{
 private:
     Vector2 window_size;
     Vector2 cell_size{40, 40};
-    Vector2 pan_offset{1000, 1000};
+    Vector2 pan_offset{0, 0};
     Vector2 mouse_pos;
     Vector2 prev_mouse_pos;
     Vertex* current_vertex = nullptr;
