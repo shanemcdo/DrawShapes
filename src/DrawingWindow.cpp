@@ -29,6 +29,15 @@ void DrawingWindow::mouse_input(){
         pan_offset.x -= mouse_change.x;
         pan_offset.y -= mouse_change.y;
     }
+    float wheel_move = GetMouseWheelMove();
+    if(wheel_move != 0.0){
+        cell_size.x += wheel_move * cell_size.x / 10;
+        if(cell_size.x < 1)
+            cell_size.x = 1;
+        cell_size.y += wheel_move * cell_size.y / 10;
+        if(cell_size.y < 1)
+            cell_size.y = 1;
+    }
     prev_mouse_pos = mouse_pos;
 }
 
