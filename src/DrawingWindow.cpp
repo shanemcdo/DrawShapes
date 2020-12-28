@@ -6,6 +6,8 @@
 #include"Circle.h"
 #include"Triangle.h"
 #include"Polygon.h"
+#include"Arc.h"
+#include"CurvedLine.h"
 
 void DrawingWindow::draw_grid(){
     for(int i = pan_offset.x; i < window_size.x; i += cell_size.x)
@@ -72,6 +74,10 @@ void DrawingWindow::keyboard_input(){
             add_new_shape<Triangle>();
         else if(IsKeyPressed(KEY_P))
             add_new_shape<Polygon>();
+        else if(IsKeyPressed(KEY_A))
+            add_new_shape<Arc>();
+        else if(IsKeyPressed(KEY_S))
+            add_new_shape<CurvedLine>();
     }else{
         if(IsKeyPressed(KEY_ESCAPE)){
             current_vertex = nullptr;

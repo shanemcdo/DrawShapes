@@ -3,7 +3,7 @@
 
 #include"Line.h"
 
-class Triangle: public Shape{
+class Triangle: public Line{
 public:
     Triangle();
     virtual void draw(DrawingWindow* window);
