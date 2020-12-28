@@ -32,8 +32,6 @@ void DrawingWindow::mouse_input(){
         current_vertex->y = current_mouse_grid_pos.y;
         if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
             current_vertex = current_vertex->get_parent()->add_vertex(current_mouse_grid_pos);
-            if(current_vertex != nullptr)
-                vertices.push_back(current_vertex);
         }
     }else if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
         current_vertex = select_vertex(current_mouse_grid_pos);
@@ -85,10 +83,8 @@ template<class T>
 void DrawingWindow::add_new_shape(){
     Vector2 pos = round_window_to_grid(GetMousePosition());
     shapes.push_back(new T());
+    shapes[shapes.size() - 1]->add_vertex(pos);
     current_vertex = shapes[shapes.size() - 1]->add_vertex(pos);
-    vertices.push_back(current_vertex);
-    current_vertex = shapes[shapes.size() - 1]->add_vertex(pos);
-    vertices.push_back(current_vertex);
 }
 
 void DrawingWindow::remove_shape(Shape* shape){
@@ -100,7 +96,6 @@ void DrawingWindow::remove_shape(Shape* shape){
 }
 
 void DrawingWindow::remove_vertex(Vertex* vertex){
-    vertices.erase(std::remove(vertices.begin(), vertices.end(), vertex));
     vertex->remove();
     if(vertex->parent->vertices.size() == 0)
         remove_shape(vertex->parent);
@@ -108,10 +103,11 @@ void DrawingWindow::remove_vertex(Vertex* vertex){
 }
 
 Vertex* DrawingWindow::select_vertex(Vector2 pos){
-    for(Vertex* vertex: vertices){
-        if(vertex->x == pos.x && vertex->y == pos.y)
-            return vertex;
-    }
+    for(Shape* shape: shapes)
+        for(Vertex* vertex: shape->vertices){
+            if(vertex->x == pos.x && vertex->y == pos.y)
+                return vertex;
+        }
     return nullptr;
 }
 
@@ -159,7 +155,7 @@ void DrawingWindow::run(){
         for(auto shape: shapes)
             shape->draw(this);
         EndDrawing();
-    std::cout << "Shapes: " << shapes.size() << "\nvertices: " << vertices.size() << std::endl;
+    std::cout << "Shapes: " << shapes.size() << std::endl;
     }
     CloseWindow();
 }

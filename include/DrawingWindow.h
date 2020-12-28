@@ -16,7 +16,6 @@ private:
     Vertex* current_vertex = nullptr;
     char* window_title;
     std::vector<Shape*> shapes;
-    std::vector<Vertex*> vertices;
     void draw_grid();
     void draw_cursor();
     void mouse_input();
