@@ -152,7 +152,6 @@ void DrawingWindow::run(){
         for(auto shape: shapes)
             shape->draw(this);
         EndDrawing();
-    std::cout << "Shapes: " << shapes.size() << std::endl;
     }
     CloseWindow();
 }
