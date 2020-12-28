@@ -76,7 +76,6 @@ void DrawingWindow::keyboard_input(){
             current_vertex = nullptr;
         }
     }
-
 }
 
 template<class T>
@@ -90,8 +89,6 @@ void DrawingWindow::add_new_shape(){
 void DrawingWindow::remove_shape(Shape* shape){
     current_vertex = nullptr;
     shapes.erase(std::remove(shapes.begin(), shapes.end(), shape));
-    for(Vertex* vertex: shape->vertices)
-        remove_vertex(vertex);
     delete shape;
 }
 
