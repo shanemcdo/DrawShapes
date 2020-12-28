@@ -14,6 +14,7 @@ private:
     Vector2 mouse_pos;
     Vector2 prev_mouse_pos;
     Vertex* current_vertex = nullptr;
+    bool repositioning_vertex = false;
     char* window_title;
     std::vector<Shape*> shapes;
     void draw_grid();

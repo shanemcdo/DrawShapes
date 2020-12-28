@@ -31,10 +31,16 @@ void DrawingWindow::mouse_input(){
         current_vertex->x = current_mouse_grid_pos.x;
         current_vertex->y = current_mouse_grid_pos.y;
         if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
-            current_vertex = current_vertex->get_parent()->add_vertex(current_mouse_grid_pos);
+            if(!repositioning_vertex)
+                current_vertex = current_vertex->get_parent()->add_vertex(current_mouse_grid_pos);
+            else{
+                current_vertex = nullptr;
+                repositioning_vertex = false;
+            }
         }
     }else if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
         current_vertex = select_vertex(current_mouse_grid_pos);
+        repositioning_vertex = true;
     }
     if(IsMouseButtonDown(MOUSE_MIDDLE_BUTTON)){
         Vector2 mouse_change = {prev_mouse_pos.x - mouse_pos.x, prev_mouse_pos.y - mouse_pos.y};
@@ -67,19 +73,23 @@ void DrawingWindow::keyboard_input(){
         else if(IsKeyPressed(KEY_P))
             add_new_shape<Polygon>();
     }else{
-        if(IsKeyPressed(KEY_ESCAPE))
+        if(IsKeyPressed(KEY_ESCAPE)){
             current_vertex = nullptr;
-        else if (IsKeyPressed(KEY_DELETE))
+            repositioning_vertex = false;
+        }else if (IsKeyPressed(KEY_DELETE)){
             remove_shape(current_vertex->get_parent());
-        else if (IsKeyPressed(KEY_BACKSPACE)){
+            repositioning_vertex = false;
+        }else if (IsKeyPressed(KEY_BACKSPACE)){
             remove_vertex(current_vertex);
             current_vertex = nullptr;
+            repositioning_vertex = false;
         }
     }
 }
 
 template<class T>
 void DrawingWindow::add_new_shape(){
+    repositioning_vertex = false;
     Vector2 pos = round_window_to_grid(GetMousePosition());
     shapes.push_back(new T());
     shapes[shapes.size() - 1]->add_vertex(pos);
