@@ -27,3 +27,6 @@ bin:# create folder bin
 
 test: all# compile everything then run executible
 	$(TARGET)
+
+release: clean
+	make TARGET=bin/shapes
