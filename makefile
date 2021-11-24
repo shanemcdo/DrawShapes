@@ -1,14 +1,10 @@
-# Last updated 2020-10-24 by Shane McDonough
-CC = g++# the compiler, either gcc or g++ usually
-ifeq ($(CC), g++)# if compiler is gcc
-	EXTENSION = .cpp# set main file extension to cpp
-else#if compiler is not gcc, so probably g++ because those are the only ones I use
-	EXTENSION = .c# set main file extension to c
-endif
-CFLAGS = -c -Wall# -c compile and assemble do not link, -Wall turns warnings on
-INCLUDE = -Iinclude# folders to be included, anything following -I is the directory the compiler can now see
-LIBS = -lraylib -lopengl32 -lgdi32 -lwinmm# libs to be included, anything following -l is a library that is included
-OBJECTS = $(patsubst src/%$(EXTENSION),bin/%.o,$(wildcard src/*$(EXTENSION)))# in bin/%.o format, all of the objects to be compiled
+# Last updated 2021-9-11 by Shane McDonough
+CC=clang++#compiler
+EXTENSION=.cpp#c++ extension
+TARGET=bin/test#the output file
+FLAGS=-Wall -Iinclude -std=c++20 `pkg-config --libs --cflags raylib`#flags to be passed to compiler
+INCLUDES=$(wildcard include/*)# get all include files
+OBJECTS=$(patsubst src/%$(EXTENSION),bin/%.o,$(wildcard src/*$(EXTENSION)))# in bin/%.o format, all of the objects to be compiled
 # previous line explained:
 # patsubst replaces the first arg template with the second arg template on the variable in the third arg
 # wildcard gets all the files that comply with its arg
@@ -18,11 +14,10 @@ OBJECTS = $(patsubst src/%$(EXTENSION),bin/%.o,$(wildcard src/*$(EXTENSION)))# i
 # e.g. bin/main.o bin/File1/.o
 
 all: bin $(OBJECTS)# compile everything
-	$(CC) bin/*.o -o bin/test.exe $(INCLUDE) $(LIBS)
-	@echo
+	$(CC) bin/*.o $(FLAGS) -o $(TARGET)
 	
-bin/%.o: src/%$(EXTENSION)# create object file for %
-	$(CC) $< $(CFLAGS) -o $@ $(INCLUDE) $(LIBS)
+bin/%.o: src/%$(EXTENSION) $(INCLUDES)# create object file for %
+	$(CC) $< $(FLAGS) -c -o $@
 
 clean:# remove contents of bin
 	rm -rf bin
@@ -31,4 +26,4 @@ bin:# create folder bin
 	mkdir bin
 
 test: all# compile everything then run executible
-	bin/test.exe
+	$(TARGET)
