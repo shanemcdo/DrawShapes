@@ -1,9 +1,4 @@
 #include"Circle.h"
-#include"math.h"
-
-int Circle::distance(Vector2 v1, Vector2 v2){
-    return sqrt(pow(v2.x - v1.x, 2) + pow(v2.y - v1.y, 2));
-}
 
 #include"DrawingWindow.h"
 void Circle::draw(DrawingWindow* window){

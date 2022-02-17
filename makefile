@@ -20,6 +20,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJECTS)# compile the target
 	$(CC) $^ $(LIBS) $(CFLAGS) -o $@
+	make -t
 	
 bin/%.o: src/%$(EXTENSION) $(INCLUDES) bin# create object file for %
 	$(CC) $< $(CFLAGS) -c -o $@
@@ -45,5 +46,6 @@ $(DBG_TARGET): $(DBG_OBJECTS)# create debug executable
 
 bin/%.o.debug: src/%$(EXTENSION) $(INCLUDES) bin# create debug object file for %
 	$(CC) $< $(CFLAGS) $(DBG_FLAGS) -c -o $@
+	make -t
 
 .PHONY: all clean test debug

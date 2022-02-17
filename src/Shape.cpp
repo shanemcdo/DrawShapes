@@ -1,4 +1,9 @@
+#include<math.h>
 #include"Shape.h"
+
+int Shape::distance(Vector2 v1, Vector2 v2){
+    return sqrt(pow(v2.x - v1.x, 2) + pow(v2.y - v1.y, 2));
+}
 
 Vertex* Shape::add_vertex(Vector2 v){
     if(vertices.size() < max_verticies){

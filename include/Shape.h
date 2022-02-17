@@ -12,6 +12,7 @@ protected:
     unsigned max_verticies = 0;
     friend class Vertex;
     friend class DrawingWindow;
+    int distance(Vector2 v1, Vector2 v2);
 public:
     Vertex* add_vertex(Vector2 v);
     void draw_verticies(DrawingWindow* window);
